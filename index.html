@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lifestyle | Ecommerse Website Design</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <img src="images/logo1.png" width="100px">
+                </div>
+                <nav>
+                    <ul>
+                        <li> <a href="index.html">Home</a></li>
+                        <li> <a href="Cart.html">Cart</a></li>
+                        <li> <a href="indexedDb.html">IndexedDB</a></li>
+                        <li> <a href="local storage.html">LocalStorage</a></li>
+                        <li> <a href="SessionStorage.html">SessionStorage</a></li>
+                    </ul>
+                    <div class="container-fluid">
+                        <div class="continer">
+                            <div class="search">
+                                <input type="text" name="" id="find" placeholder="Search here...." onkeyup="search()">
+                            </div>
+                        </div>
+                        </div>
+                </nav>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <h3>Give Your Workout<br> A New Style</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        function search() 
+        {
+            let filter = document.getElementById('find').value.toUpperCase();
+            let item = document.querySelectorAll('.product');
+            let l = document.getElementsByTagName('h4');
+            for (var i = 0; i <= l.length; i++) 
+            {
+                let a = item[i].getElementsByTagName('h4')[0];
+                let value = a.innerHTML || a.innerText || a.textContent;
+                if (value.toUpperCase().indexOf(filter) > -1) 
+                {
+                    item[i].style.display = "";
+                }
+                else
+                {
+                    item[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+    <!--------featured products------->
+    <div class="center">
+        <div class="form-input">
+          <div class="preview">
+            <img id="image">
+          </div>
+          <label for="file-ip-1">Add here new product</label>
+          <input type="file" id="file-ip-1" accept="image/*" onchange="showPreview(event);">    
+        </div>
+      </div> 
+      <script type="text/javascript">
+        function showPreview(event){
+        if(event.target.files.length > 0){
+          var src = URL.createObjectURL(event.target.files[0]);
+          var preview = document.getElementById("image");
+          preview.src = src;
+          preview.style.display = "block";
+        }
+      }
+      </script>
+    <div class="small-container">
+        <h2 class="title">All Products</h2>
+        <div class="row">
+            <div class="product" data-name="T-shirt" data-price="50.00" data-tag="T-shirt">
+                <img src="images/product-1.jpg">
+                <h4>White T-shirt</h4>
+                <p>$50.00</p>
+                <button onclick="addToCart('T-shirt',50.00,'T-shirt')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Apple watch" data-price="350.00" data-tag="Apple watch">
+                <img src="images/product-2.png">
+                <h4>Apple Watch</h4>
+                <p>$350.00</p>
+                <button onclick="addToCart('Apple Watch',350.00,'Apple Watch')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Adidas Shoes" data-price="350.00" data-tag="Adidas Shoes">
+                <img src="images/product-3.png">
+                <h4>Adidas Shoes</h4>
+                <p>$250.00</p>
+                <button onclick="addToCart('Adidas Shoes',250.00,'Adidas Shoes')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Puma T-shirt" data-price="350.00" data-tag="Puma T-shirt">
+                <img src="images/product-5.png">
+                <h4>Puma T-shirt</h4>
+                <p>$80.00</p>
+                <button onclick="addToCart('Puma T-shirt',250.00,'Puma T-shirt')">Add to Cart</button>
+            </div>
+
+            <div class="product" data-name="Puma Shoes" data-price="350.00" data-tag="Puma Shoes">
+                <img src="images/product-4.png">
+                <h4>Puma shoes</h4>
+                <p>$350.00</p>
+                <button onclick="addToCart('Puma Shoes',350.00,'Puma Shoes')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Red T-shirt" data-price="350.00" data-tag="Red T-shirt">
+                <img src="images/download.png">
+                <h4> Red T-shirt</h4>
+                <p>$50.00</p>
+                <button onclick="addToCart('Red T-shirt',50.00,'Red T-shirt')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Hair Cap" data-price="350.00" data-tag="Hair Cap">
+                <img src="images/product-6.png">
+                <h4>Hair Cap</h4>
+                <p>$40.00</p>
+                <button onclick="addToCart('Hair Cap',40.00,'Hair Cap')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Sunglass" data-price="350.00" data-tag="Sunglass">
+                <img src="images/product-7.jpg">
+                <h4>Sunglass</h4>
+                <p>$50.00</p>
+                <button onclick="addToCart('Sunglass',50.00,'Sunglass')">Add to Cart</button>
+            </div>
+            <div class="product" data-name="Wallet" data-price="350.00" data-tag="Wallet">
+                <img src="images/product-8.png">
+                <h4>Wallet</h4>
+                <p>$60.00</p>
+                <button onclick="addToCart('Wallet',60.00,'Wallet')">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+    <!--------offer------->
+    <div class="offer">
+        <div class="small-container">
+            <div class="row">
+                <img src="images/exclusive.jpg" class="offer-img">
+                <p>exclusively Available on You & Me shop</p>
+                <h1>Smart Band 4  </h1>
+                <small>
+                    The Mi Smart Band 4 Features a 40% larger (than Mi Band 3)
+                    Amoled color full-touch display with adjustable brightness,so everything
+                    is clear as can be.
+                </small>
+                <a href="" class="btn">Buy Now &#187; </a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--------brands------->
+    <div class="brands">
+        <div class="small-container">
+            <div class="row">
+                <div class="col-5">
+                    <img src="images/logo-3.png">
+                </div>
+                <div class="col-5">
+                    <img src="images/logo-5.png">
+                </div>
+                <div class="col-5">
+                    <img src="images/logo-4.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer col-2">                   
+                </div>
+                <div class="footer col-3 ">
+                    <h3>Useful links</h3>
+                    <ul>
+                        <li>Coupns</li>
+                        <li>Blog post</li>
+                        <li>Returns policy</li>
+                        <li>join Affilate </li>
+                    </ul>
+                </div>
+                <div class="footer col-4 ">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>YouTube</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">Copyright By You & Me Store</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

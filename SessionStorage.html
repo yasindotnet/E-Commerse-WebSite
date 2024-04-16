@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Session Storage</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin-top: 20px;
+            margin-left: 50px;
+            
+        }
+
+        table, th, td {
+            border: 1px solid burlywood;
+            padding: 10px;
+            text-align: center;
+            color: brown;
+            margin-left: 300px;
+        }
+        h2{
+            text-align: center;
+            color: darkcyan;
+        }
+       
+       body{
+        margin-left: 100px;
+        background-color: azure;
+       }
+        
+    </style>
+</head>
+<body>
+
+    <h2>Form with Session Storage</h2>
+
+    <form id="userForm">
+        <label for="f1">First Name:</label>
+        <input type="text" id="f1" name="firstName" required><br>
+
+        <label for="l1">Last Name:</label>
+        <input type="text" id="l1" name="lastName" required><br>
+
+        <label for="e1">Email:</label>
+        <input type="email" id="email" name="e1" required><br>
+
+        <button type="button" id="btn" onclick="saveData()">Save Data</button>
+    </form>
+
+    <h2>Stored Data</h2>
+    <table id="userData">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Function to save form data to session storage
+        function saveData() {
+            // Get form values
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var email = document.getElementById('email').value;
+
+            // Create an object to hold the user data
+            var userData = {
+                firstName: firstName,
+                lastName: lastName,
+                email:email
+            };
+
+            // Store the data in session storage
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+
+            // Call function to update the table
+            updateTable();
+        }
+
+        // Function to update the table with stored data
+        function updateTable() {
+            // Get the stored data from session storage
+            var storedData = sessionStorage.getItem('userData');
+
+            // Parse the JSON data
+            var userData = JSON.parse(storedData);
+
+            // Get the table body element
+            var tableBody = document.querySelector('#userData tbody');
+
+            // Create a new table row
+            var newRow = tableBody.insertRow();
+
+            // Insert cells with data into the row
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+
+            cell1.textContent = userData.firstName;
+            cell2.textContent = userData.lastName;
+            cell3.textContent = userData.email;
+        }
+
+        // Call updateTable function on page load
+        window.onload = updateTable;
+    </script>
+
+</body>
+</html>

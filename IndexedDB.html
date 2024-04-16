@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>IndexedDB Form</title>
+  <style>
+   
+  </style>
+</head>
+<body>
+
+  <h2>IndexedDB Form</h2>
+
+  <form id="dataForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+
+    <button type="button" onclick="saveData()">Save</button>
+    <button type="button" onclick="updateData()">Update</button>
+    <button type="button" onclick="deleteData()">Delete</button>
+  </form>
+
+  <h2>Data Table</h2>
+
+  <table id="dataTable" border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody"></tbody>
+  </table>
+
+  <script>
+    let db;
+    const dbName = "FormDataDB";
+    const request = indexedDB.open(dbName, 1);
+
+    request.onupgradeneeded = function(event) {
+      const db = event.target.result;
+      const objectStore = db.createObjectStore("formData", { keyPath: "id", autoIncrement: true });
+      objectStore.createIndex("name", "name", { unique: false });
+      objectStore.createIndex("email", "email", { unique: true });
+    };
+
+    request.onsuccess = function(event) {
+      db = event.target.result;
+      displayData();
+    };
+
+    request.onerror = function(event) {
+      console.error("Error opening database", event.target.error);
+    };
+
+    function saveData() {
+      const transaction = db.transaction(["formData"], "readwrite");
+      const objectStore = transaction.objectStore("formData");
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+
+      const data = { name, email };
+
+      const request = objectStore.add(data);
+
+      request.onsuccess = function() {
+        console.log("Data added successfully");
+        displayData();
+      };
+
+      request.onerror = function(event) {
+        console.error("Error adding data", event.target.error);
+      };
+    }
+
+    function updateData() {
+      const transaction = db.transaction(["formData"], "readwrite");
+      const objectStore = transaction.objectStore("formData");
+
+      const id = parseInt(prompt("Enter ID to update:"));
+
+      const request = objectStore.get(id);
+
+      request.onsuccess = function() {
+        const data = request.result;
+        if (data) {
+          const newName = prompt("Enter new name:", data.name);
+          const newEmail = prompt("Enter new email:", data.email);
+
+          data.name = newName;
+          data.email = newEmail;
+
+          const updateRequest = objectStore.put(data, id);
+
+          updateRequest.onsuccess = function() {
+            console.log("Data updated successfully");
+            displayData();
+          };
+
+          updateRequest.onerror = function(event) {
+            console.error("Error updating data", event.target.error);
+          };
+        } else {
+          console.error("Data not found");
+        }
+      };
+
+      request.onerror = function(event) {
+        console.error("Error fetching data for update", event.target.error);
+      };
+    }
+
+    function deleteData() {
+      const transaction = db.transaction(["formData"], "readwrite");
+      const objectStore = transaction.objectStore("formData");
+
+      const id = parseInt(prompt("Enter ID to delete:"));
+
+      const request = objectStore.delete(id);
+
+      request.onsuccess = function() {
+        console.log("Data deleted successfully");
+        displayData();
+      };
+
+      request.onerror = function(event) {
+        console.error("Error deleting data", event.target.error);
+      };
+    }
+
+    function displayData() {
+      const transaction = db.transaction(["formData"], "readonly");
+      const objectStore = transaction.objectStore("formData");
+
+      const dataBody = document.getElementById("dataBody");
+      dataBody.innerHTML = "";
+
+      objectStore.openCursor().onsuccess = function(event) {
+        const cursor = event.target.result;
+        if (cursor) {
+          const row = document.createElement("tr");
+          const idCell = document.createElement("td");
+          const nameCell = document.createElement("td");
+          const emailCell = document.createElement("td");
+
+          idCell.textContent = cursor.value.id;
+          nameCell.textContent = cursor.value.name;
+          emailCell.textContent = cursor.value.email;
+
+          row.appendChild(idCell);
+          row.appendChild(nameCell);
+          row.appendChild(emailCell);
+
+          dataBody.appendChild(row);
+
+          cursor.continue();
+        }
+      };
+    }
+  </script>
+
+</body>
+</html>
